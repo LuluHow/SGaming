@@ -1,0 +1,22 @@
+{
+  "name": "sgaming",
+  "version": "0.0.1",
+  "description": "Social network for gamers",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://LuluHow@bitbucket.org/LuluHow/sgaming.git"
+  },
+  "author": "Ludovic Horem & Raphael Domingues",
+  "license": "MIT",
+  "homepage": "https://bitbucket.org/LuluHow/sgaming#readme",
+  "dependencies": {
+    "body-parser": "^1.17.1",
+    "express": "^4.15.2",
+    "jasmine": "^2.5.3",
+    "mongoose": "^4.8.6"
+  }
+}
