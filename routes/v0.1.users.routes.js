@@ -14,37 +14,55 @@ const User = require('../models/User');
 
 /*START REGION: GET*/
 users.get('/', function(req, res) {
-    User.find(function(err, users) {
-        if(err) {
+    User.find({})
+    .populate('games')
+    .exec(function (err, item) {
+        if (err) {
             res.send(err);
         }
-        res.json(users);
+        res.json(item);
     });
 });
 
 users.get('/:user_id', function(req, res) {
-    User.find(req.params.user_id, function(err, user) {
-        if(err) {
-            res.send(err);
-        }
-        res.json(user);
-    });
+    User.find(req.params.user_id)
+        .populate('games')
+        .exec(function (err, item) {
+            if (err) {
+                res.send(err);
+            }
+            res.json(item);
+        });
 });
 /*END REGION: GET*/
 
 /*START REGION: POST*/
 users.post('/', function(req, res) {
     var newUser = new User();
-
     Object.keys(req.body).forEach(function(item, index, array) {
-        newUser[item] = req.body[item];
+        if(item === "games") {
+            var games = req.body[item].split(';');
+
+            games.forEach(function(i, j) {
+                newUser.games.push(i);
+            });
+        } else {
+            user[item] = req.body[item];
+        }
     });
 
     newUser.save(function(err, user) {
         if(err) {
             res.send(err);
         }
-        res.json(user);
+        User.find(user._id)
+        .populate('games')
+        .exec(function (err, item) {
+            if (err) {
+                res.send(err);
+            }
+            res.json(item);
+        });
     });
 })
 /*END REGION: POST*/
@@ -57,14 +75,29 @@ users.put('/:user_id', function(req, res) {
         }
 
         Object.keys(req.body).forEach(function(item, index, array) {
-            user[item] = req.body[item];
+            if(item === "games") {
+                var games = req.body[item].split(';');
+
+                games.forEach(function(i, j) {
+                    user.games.push(i);
+                });
+            } else {
+                user[item] = req.body[item];
+            }
         });
 
         user.save(function(err, user) {
             if(err) {
-                res.send(err);
-            }
-            res.json(user);
+            res.send(err);
+        }
+            User.find(user._id)
+            .populate('games')
+            .exec(function (err, item) {
+                if (err) {
+                    res.send(err);
+                }
+                res.json(item);
+            });
         });
     });
 })

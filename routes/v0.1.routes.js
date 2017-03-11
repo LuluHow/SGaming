@@ -10,7 +10,11 @@ router.use(function(req, res, next) {
 });
 
 //Load routes files
+var users = require('./v0.1.users.routes');
+var games = require('./v0.1.games.routes');
 
+router.use('/users', users);
+router.use('/games', games);
 
 //Define routes
 router.get('/', function(req, res) {
