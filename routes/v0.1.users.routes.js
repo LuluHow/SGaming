@@ -16,6 +16,17 @@ const User = require('../models/User');
 users.get('/', function(req, res) {
     User.find({})
     .populate('games')
+    .populate({ 
+        path: 'friends',
+        populate: [{
+            path: 'games',
+            model: 'Game'
+        },
+        {
+            path: 'friends',
+            model: 'User'
+        }]
+    })
     .exec(function (err, item) {
         if (err) {
             res.send(err);
@@ -25,14 +36,25 @@ users.get('/', function(req, res) {
 });
 
 users.get('/:user_id', function(req, res) {
-    User.find(req.params.user_id)
-        .populate('games')
-        .exec(function (err, item) {
-            if (err) {
-                res.send(err);
-            }
-            res.json(item);
-        });
+    User.findById(req.params.user_id)
+    .populate('games')
+    .populate({ 
+        path: 'friends',
+        populate: [{
+            path: 'games',
+            model: 'Game'
+        },
+        {
+            path: 'friends',
+            model: 'User'
+        }]
+    })
+    .exec(function (err, item) {
+        if (err) {
+            res.send(err);
+        }
+        res.json(item);
+    });
 });
 /*END REGION: GET*/
 
@@ -46,8 +68,14 @@ users.post('/', function(req, res) {
             games.forEach(function(i, j) {
                 newUser.games.push(i);
             });
+        } else if(item === "friends") {
+            var friends = req.body[item].split(';');
+
+            friends.forEach(function(i, j) {
+                newUser.friends.push(i);
+            });
         } else {
-            user[item] = req.body[item];
+            newUser[item] = req.body[item];
         }
     });
 
@@ -57,6 +85,17 @@ users.post('/', function(req, res) {
         }
         User.find(user._id)
         .populate('games')
+        .populate({ 
+            path: 'friends',
+            populate: [{
+                path: 'games',
+                model: 'Game'
+            },
+            {
+                path: 'friends',
+                model: 'User'
+            }]
+        })
         .exec(function (err, item) {
             if (err) {
                 res.send(err);
@@ -81,6 +120,12 @@ users.put('/:user_id', function(req, res) {
                 games.forEach(function(i, j) {
                     user.games.push(i);
                 });
+            } else if(item === "friends") {
+                var friends = req.body[item].split(';');
+
+                friends.forEach(function(i, j) {
+                    user.friends.push(i);
+                });
             } else {
                 user[item] = req.body[item];
             }
@@ -92,6 +137,17 @@ users.put('/:user_id', function(req, res) {
         }
             User.find(user._id)
             .populate('games')
+            .populate({ 
+                path: 'friends',
+                populate: [{
+                    path: 'games',
+                    model: 'Game'
+                },
+                {
+                    path: 'friends',
+                    model: 'User'
+                }]
+            })
             .exec(function (err, item) {
                 if (err) {
                     res.send(err);

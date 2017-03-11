@@ -8,7 +8,8 @@ var UserSchema   = new Schema({
         type: String,
         required: true
     },
-    games : [{ type: Schema.Types.ObjectId, ref: 'Game' }]
+    games : [{ type: Schema.Types.ObjectId, ref: 'Game' }],
+    friends : [{ type: Schema.Types.ObjectId, ref: 'User' }]
 });
 
 module.exports = mongoose.model('User', UserSchema);
