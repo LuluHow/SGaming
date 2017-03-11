@@ -21,11 +21,6 @@ app.get('/', function(req, res) {
     res.end('Welcome to SGaming!');
 });
 
-app.get('/getGamesByUserId/:user_id', function(req, res) {
-    console.log(req.params.user_id);
-    res.end('OK');
-});
-
 //Listen app
 app.listen(PORT, function() {
     console.log('SGaming API listen on port ' + PORT);
