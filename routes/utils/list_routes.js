@@ -14,6 +14,8 @@ module.exports =  function (baseUrl, routes) {
         }
     }
 
+    table.toString();
+
     return {
         table: table,
         base: baseUrl
