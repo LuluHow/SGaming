@@ -4,7 +4,7 @@
   "description": "Social network for gamers",
   "main": "server.js",
   "scripts": {
-    "start": "set NODE_ENV=development nodemon server.js"
+    "start": "set NODE_ENV=development && nodemon server.js"
   },
   "repository": {
     "type": "git",
