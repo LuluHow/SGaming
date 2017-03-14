@@ -172,5 +172,6 @@ users.delete('/:user_id', function(req, res) {
 });
 /*END REGION: DELETE*/
 
+
 //Exports router
 module.exports = users;
